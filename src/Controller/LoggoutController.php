@@ -8,7 +8,7 @@ class LoggoutController implements Controller
 {
     public function processaRequisicao(): void
     {
-        session_destroy();
+        unset($_SESSION["isLoggedIn"]);
         header("Location: /login");
     }
 }
