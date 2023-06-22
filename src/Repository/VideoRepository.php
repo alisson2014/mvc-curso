@@ -57,6 +57,26 @@ class VideoRepository
         return $result;
     }
 
+    public function removeImage(int $id): bool
+    {
+        $result = false;
+
+        $this->pdo->beginTransaction();
+        $sql = "UPDATE videos SET image_path = NULL WHERE id = ? AND image_path IS NOT NULL;";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(1, $id, PDO::PARAM_INT);
+
+        try {
+            $result = $stmt->execute();
+            $this->pdo->commit();
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+            $this->pdo->rollBack();
+        }
+
+        return $result;
+    }
+
     public function update(Video $video): bool
     {
         $result = false;
