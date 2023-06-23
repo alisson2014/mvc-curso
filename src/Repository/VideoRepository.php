@@ -93,7 +93,10 @@ class VideoRepository
         $stmt->bindValue(":url", $video->url, PDO::PARAM_STR);
         $stmt->bindValue(":title", $video->title, PDO::PARAM_STR);
         $stmt->bindValue(":id", $video->id, PDO::PARAM_INT);
-        $stmt->bindValue(':image_path', $video->getFilePath(), PDO::PARAM_STR);
+
+        if ($video->getFilePath() !== null) {
+            $stmt->bindValue(":image_path", $video->getFilePath(), PDO::PARAM_STR);
+        }
 
         try {
             $result = $stmt->execute();

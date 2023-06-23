@@ -34,11 +34,17 @@ class EditVideoController implements Controller
         $video->setId($id);
 
         if ($_FILES["image"]["error"] === UPLOAD_ERR_OK) {
-            move_uploaded_file(
-                $_FILES["image"]["tmp_name"],
-                __DIR__ . "/../../public/img/uploads/" . $_FILES["image"]["name"]
-            );
-            $video->setFilePath($_FILES["image"]["name"]);
+            $finfo = new \finfo(FILEINFO_MIME_TYPE);
+            $mimeType = $finfo->file($_FILES["image"]["tmp_name"]);
+
+            if (str_starts_with($mimeType, "image/")) {
+                $safeFileInfo = uniqid("upload_") . "_" . pathinfo($_FILES["image"]["tmp_name"], PATHINFO_BASENAME);
+                move_uploaded_file(
+                    $_FILES["image"]["tmp_name"],
+                    __DIR__ . "/../../public/img/uploads/{$safeFileInfo}"
+                );
+                $video->setFilePath($safeFileInfo);
+            }
         }
 
         $success = $this->videoRepository->update($video);
@@ -48,7 +54,6 @@ class EditVideoController implements Controller
             return;
         }
 
-        http_response_code(200);
         header("Location: /?success=1");
     }
 }
