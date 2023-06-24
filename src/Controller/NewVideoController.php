@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Alura\Mvc\Controller;
 
 use Alura\Mvc\Entity\Video;
+use Alura\Mvc\Helper\FlashMessageTrait;
 use Alura\Mvc\Repository\VideoRepository;
 
 class NewVideoController implements Controller
 {
+    use FlashMessageTrait;
     public function __construct(private VideoRepository $videoRepository)
     {
     }
@@ -18,8 +20,9 @@ class NewVideoController implements Controller
         $url = filter_input(INPUT_POST, "url", FILTER_VALIDATE_URL);
         $titulo = filter_input(INPUT_POST, "titulo");
 
-        if ($url === false || $titulo === false) {
-            header("Location: /?success=0");
+        if (!$url || !$titulo) {
+            $this->addErrorMessage("URL inválida");
+            header("Location: /novo-video");
             return;
         }
 
@@ -39,8 +42,9 @@ class NewVideoController implements Controller
         }
 
         $success = $this->videoRepository->add($video);
-        if ($success === false) {
-            header("Location: /?success=0");
+        if (!$success) {
+            $this->addErrorMessage("Erro ao cadastrar vídeo");
+            header("Location: /novo-video");
             return;
         }
 

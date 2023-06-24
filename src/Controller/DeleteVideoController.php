@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Alura\Mvc\Controller;
 
+use Alura\Mvc\Helper\ValidateId;
 use Alura\Mvc\Repository\VideoRepository;
 
 class DeleteVideoController implements Controller

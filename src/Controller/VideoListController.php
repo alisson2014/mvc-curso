@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Alura\Mvc\Controller;
 
+use Alura\Mvc\Helper\HtmlRedererTrait;
 use Alura\Mvc\Repository\VideoRepository;
 
-class VideoListController extends ControllerWithHtml
+class VideoListController
 {
+    use HtmlRedererTrait;
     public function __construct(private VideoRepository $videoRepository)
     {
     }

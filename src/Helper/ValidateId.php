@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Alura\Mvc\Controller;
+namespace Alura\Mvc\Helper;
 
 trait ValidateId
 {
@@ -12,11 +12,6 @@ trait ValidateId
      */
     public function validateId(int|false|null $id): bool
     {
-        $isValid = $id !== null && $id !== false;
-        if ($isValid) {
-            return true;
-        }
-
-        return false;
+        return ($id !== null && $id !== false);
     }
 }

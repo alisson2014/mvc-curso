@@ -2,23 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Alura\Mvc\Controller;
+namespace Alura\Mvc\Helper;
 
-abstract class ControllerWithHtml implements Controller
+trait HtmlRedererTrait
 {
-    private const TEMPLATE_PATH = __DIR__ . "/../../views/";
-
     /**
      * @param string $templateName
      * @param ?array $context
      * @return string
      */
-    protected function renderTemplate(
+    private function renderTemplate(
         string $templateName,
         array $context = []
     ): string {
+        $template_path =  __DIR__ . "/../../views/";
         extract($context);
-        $fileRender = self::TEMPLATE_PATH . $templateName . ".php";
+        $fileRender = $template_path . $templateName . ".php";
         ob_start();
         require_once($fileRender);
         return ob_get_clean();

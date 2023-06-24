@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Alura\Mvc\Controller;
 
 use Alura\Mvc\Entity\Video;
+use Alura\Mvc\Helper\FlashMessageTrait;
+use Alura\Mvc\Helper\ValidateId;
 use Alura\Mvc\Repository\VideoRepository;
 
 class EditVideoController implements Controller
 {
-    use ValidateId;
+    use FlashMessageTrait, ValidateId;
     public function __construct(private VideoRepository $videoRepository)
     {
     }
@@ -18,15 +20,17 @@ class EditVideoController implements Controller
     {
         $id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
         if (!$this->validateId($id)) {
-            header("Location: /?sucesso=0");
+            $this->addErrorMessage("Id inválido");
+            header("Location: /editar-video");
             return;
         }
 
         $url = filter_input(INPUT_POST, "url", FILTER_VALIDATE_URL);
         $titulo = filter_input(INPUT_POST, "titulo");
 
-        if ($url === false || $titulo === false) {
-            header("Location: /?success=0");
+        if (!$url || !$titulo) {
+            $this->addErrorMessage("URL inválida");
+            header("Location: /editar-video");
             return;
         }
 
@@ -49,11 +53,12 @@ class EditVideoController implements Controller
 
         $success = $this->videoRepository->update($video);
 
-        if ($success === false) {
-            header("Location: /?success=0");
+        if (!$success) {
+            $this->addErrorMessage("Falha ao editar video");
+            header("Location: /editar-video");
             return;
         }
 
-        header("Location: /?success=1");
+        header("Location: /");
     }
 }
