@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . "/inicio-html.php";
-/** @var \Alura\Mvc\Entity\Video|null $video */
+require_once(__DIR__ . "/start-html.php");
+/** @var ?\Alura\Mvc\Entity\Video $video */
 ?>
 <main class="container">
     <form class="container__formulario" enctype="multipart/form-data" method="post">
@@ -24,5 +24,4 @@ require_once __DIR__ . "/inicio-html.php";
     </form>
 </main>
 
-<?php
-require_once __DIR__ . "/fim-html.php";
+<?php require_once(__DIR__ . "/end-html.php"); ?>
