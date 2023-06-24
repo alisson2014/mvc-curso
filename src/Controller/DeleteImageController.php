@@ -18,16 +18,16 @@ class DeleteImageController implements Controller
         $id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 
         if (!$this->validateId($id)) {
-            header("Location: /?sucesso=0");
+            header("Location: /?success=0");
             return;
         }
 
         $success = $this->videoRepository->removeImage($id);
         if ($success === false) {
-            header("Location: /?sucesso=0");
+            header("Location: /?success=0");
             return;
         }
 
-        header("Location: /?sucesso=1");
+        header("Location: /?success=1");
     }
 }
