@@ -19,7 +19,7 @@ class Video
 
     private function setUrl(string $url): void
     {
-        if (filter_var($url, FILTER_VALIDATE_URL) === false) {
+        if (!filter_var($url, FILTER_VALIDATE_URL)) {
             throw new \InvalidArgumentException();
         }
 

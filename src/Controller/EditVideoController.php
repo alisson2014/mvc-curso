@@ -19,11 +19,7 @@ class EditVideoController implements Controller
     public function processaRequisicao(): void
     {
         $id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
-        if (!$this->validateId($id)) {
-            $this->addErrorMessage("Id inválido");
-            header("Location: /editar-video");
-            return;
-        }
+        $this->validateId($id, "editar-video");
 
         $url = filter_input(INPUT_POST, "url", FILTER_VALIDATE_URL);
         $titulo = filter_input(INPUT_POST, "titulo");

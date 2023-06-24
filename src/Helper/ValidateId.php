@@ -8,10 +8,17 @@ trait ValidateId
 {
     /**
      * @param int|false|null $id
-     * @return bool
+     * @param ?string $toLocation
+     * @return void
      */
-    public function validateId(int|false|null $id): bool
-    {
-        return ($id !== null && $id !== false);
+    private function validateId(
+        int|false|null $id,
+        string|null $toLocation = null
+    ): void {
+        if (!$id) {
+            $_SESSION["error_message"] = "Id inválido!";
+            header("Location: /{$toLocation}");
+            exit();
+        }
     }
 }

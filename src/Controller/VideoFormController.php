@@ -21,7 +21,7 @@ class VideoFormController
         $id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
         /** @var ?Video $video */
         $video = null;
-        if ($this->validateId($id)) {
+        if ($id !== null && $id !== false) {
             $video = $this->repository->find($id);
         }
 

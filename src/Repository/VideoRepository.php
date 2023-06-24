@@ -39,8 +39,6 @@ class VideoRepository
 
     public function remove(int $id): bool
     {
-        $result = false;
-
         $this->pdo->beginTransaction();
         $sql = "DELETE FROM videos WHERE id = ?";
         $stmt = $this->pdo->prepare($sql);
@@ -59,8 +57,6 @@ class VideoRepository
 
     public function removeImage(int $id): bool
     {
-        $result = false;
-
         $this->pdo->beginTransaction();
         $sql = "UPDATE videos SET image_path = NULL WHERE id = ? AND image_path IS NOT NULL;";
         $stmt = $this->pdo->prepare($sql);
@@ -79,8 +75,6 @@ class VideoRepository
 
     public function update(Video $video): bool
     {
-        $result = false;
-
         $this->pdo->beginTransaction();
 
         $updateImageSql = "";
