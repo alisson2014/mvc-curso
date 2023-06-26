@@ -5,8 +5,12 @@ declare(strict_types=1);
 namespace Alura\Mvc\Controller;
 
 use Alura\Mvc\Helper\FlashMessageTrait;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class LoginController implements Controller
+class LoginController implements RequestHandlerInterface
 {
     use FlashMessageTrait;
     private \PDO $pdo;
@@ -16,7 +20,7 @@ class LoginController implements Controller
         $this->pdo = new \PDO("sqlite:$dbPath");
     }
 
-    public function processaRequisicao(): void
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
         $password = filter_input(INPUT_POST, "password");
@@ -31,10 +35,10 @@ class LoginController implements Controller
 
         if ($verifyPassword) {
             $_SESSION["isLoggedIn"] = true;
-            header("Location: /");
-        } else {
-            $this->addErrorMessage("Usuário ou senha inválidos");
-            header("Location: /login");
+            return new Response(302, ["Location" => "/"]);
         }
+
+        $this->addErrorMessage("Usuário ou senha inválidos");
+        return new Response(302, ["Location" => "/login"]);
     }
 }

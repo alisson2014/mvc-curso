@@ -4,21 +4,22 @@ declare(strict_types=1);
 
 namespace Alura\Mvc\Helper;
 
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+
 trait ValidateId
 {
     /**
      * @param int|false|null $id
-     * @param ?string $toLocation
-     * @return void
+     * @return ResponseInterface
      */
-    private function validateId(
-        int|false|null $id,
-        string|null $toLocation = null
-    ): void {
+    private function validateId(int|false|null $id): ResponseInterface
+    {
         if (!$id) {
             $_SESSION["error_message"] = "Id inválido!";
-            header("Location: /{$toLocation}");
-            exit();
+            return new Response(302, ["Location" => "/"]);
         }
+
+        return new Response();
     }
 }
