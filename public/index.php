@@ -2,15 +2,7 @@
 
 declare(strict_types=1);
 
-use Alura\Mvc\Controller\{
-    Controller,
-    DeleteVideoController,
-    EditVideoController,
-    Error404Controller,
-    NewVideoController,
-    VideoFormController,
-    VideoListController
-};
+use Alura\Mvc\Controller\{Error404Controller};
 use Alura\Mvc\Repository\VideoRepository;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7Server\ServerRequestCreator;
