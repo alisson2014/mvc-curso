@@ -2,17 +2,14 @@
 
 declare(strict_types=1);
 
-use Alura\Mvc\Controller\{Error404Controller};
-use Alura\Mvc\Repository\VideoRepository;
+use Alura\Mvc\Controller\Error404Controller;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7Server\ServerRequestCreator;
 
 require_once(__DIR__ . "/../vendor/autoload.php");
 
-$dbPath = __DIR__ . "/../banco.sqlite";
-$pdo = new PDO("sqlite:$dbPath");
-$videoRepository = new VideoRepository($pdo);
-
+/** @var \Psr\Container\ContainerInterface $diContainer */
+$diContainer = require_once(__DIR__ . "/../config/dependencies.php");
 $routes = require_once(__DIR__ . "/../config/routes.php");
 
 $pathInfo = $_SERVER["PATH_INFO"] ?? "/";
@@ -29,7 +26,7 @@ if (!array_key_exists("isLoggedIn", $_SESSION) && !$isLogginRoute) {
 $key = "$httpMethod|$pathInfo";
 if (array_key_exists($key, $routes)) {
     $controllerClass = $routes["$httpMethod|$pathInfo"];
-    $controller = new $controllerClass($videoRepository);
+    $controller = $diContainer->get($controllerClass);
 } else {
     $controller = new Error404Controller();
 }
