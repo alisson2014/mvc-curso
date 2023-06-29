@@ -5,20 +5,22 @@ declare(strict_types=1);
 namespace Alura\Mvc\Controller;
 
 use Alura\Mvc\Entity\Video;
-use Alura\Mvc\Helper\FlashMessageTrait;
-use Alura\Mvc\Helper\ValidateId;
+use Alura\Mvc\Helper\{FlashMessageTrait, ValidateId};
 use Alura\Mvc\Repository\VideoRepository;
 use Nyholm\Psr7\Response;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\UploadedFileInterface;
+use Psr\Http\Message\{
+    ResponseInterface,
+    ServerRequestInterface,
+    UploadedFileInterface
+};
 use Psr\Http\Server\RequestHandlerInterface;
 
 class EditVideoController implements RequestHandlerInterface
 {
     use FlashMessageTrait, ValidateId;
-    public function __construct(private VideoRepository $videoRepository)
-    {
+    public function __construct(
+        private VideoRepository $videoRepository
+    ) {
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface

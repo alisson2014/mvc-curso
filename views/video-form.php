@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . "/start-html.php");
+$this->insert("start-html");
 /** @var ?\Alura\Mvc\Entity\Video $video */
 ?>
 <main class="container">
@@ -24,4 +24,4 @@ require_once(__DIR__ . "/start-html.php");
     </form>
 </main>
 
-<?php require_once(__DIR__ . "/end-html.php"); ?>
+<?php $this->insert("end-html"); ?>

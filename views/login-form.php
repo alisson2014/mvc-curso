@@ -1,4 +1,4 @@
-<?php require_once(__DIR__ . "/start-html.php"); ?>
+<?php $this->insert("start-html"); ?>
 <main class="container">
 
     <form class="container__formulario" method="post">
@@ -19,4 +19,4 @@
 
 </main>
 
-<?php require_once(__DIR__ . "/end-html.php"); ?>
+<?php $this->insert("end-html"); ?>

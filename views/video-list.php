@@ -1,4 +1,4 @@
-<?php require_once(__DIR__ . "/start-html.php"); ?>
+<?php $this->insert("start-html"); ?>
 
 <ul class="videos__container">
     <?php foreach ($videoList as $video) : ?>
@@ -22,4 +22,4 @@
     <?php endforeach; ?>
 </ul>
 
-<?php require_once(__DIR__ . "/end-html.php"); ?>
+<?php $this->insert("end-html"); ?>
