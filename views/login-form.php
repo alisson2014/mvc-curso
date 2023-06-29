@@ -1,4 +1,4 @@
-<?php $this->insert("start-html"); ?>
+<?php $this->layout("layout"); ?>
 <main class="container">
 
     <form class="container__formulario" method="post">
@@ -18,5 +18,3 @@
     </form>
 
 </main>
-
-<?php $this->insert("end-html"); ?>

@@ -1,4 +1,4 @@
-<?php $this->insert("start-html"); ?>
+<?php $this->layout("layout"); ?>
 
 <ul class="videos__container">
     <?php foreach ($videoList as $video) : ?>
@@ -21,5 +21,3 @@
         </li>
     <?php endforeach; ?>
 </ul>
-
-<?php $this->insert("end-html"); ?>
