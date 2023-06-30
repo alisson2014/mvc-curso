@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Alura\Mvc\Repository;
 
 use Alura\Mvc\Entity\User;
+use Alura\Mvc\Helper\TryAction;
 use PDO;
 
-class UserRepository
+final class UserRepository
 {
+    use TryAction;
     public function __construct(private PDO $pdo)
     {
     }
@@ -19,18 +21,11 @@ class UserRepository
 
         $sql = "INSERT INTO users (email, password) VALUES (?, ?)";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(1, $user->getEmail(), PDO::PARAM_STR);
-        $stmt->bindValue(2, $user->getPassword(), PDO::PARAM_STR);
+        $stmt->bindValue(1, $user->getEmail());
+        $stmt->bindValue(2, $user->getPassword());
+        $result = $this->tryAction($stmt);
 
-        try {
-            $result = $stmt->execute();
-            $this->pdo->commit();
-        } catch (\PDOException $e) {
-            echo $e->getMessage();
-            $this->pdo->rollBack();
-        }
-
-        return $result;
+        return $result["result"];
     }
 
     public function update(User $user): bool
@@ -38,22 +33,15 @@ class UserRepository
         return true;
     }
 
-    public function remove(int $email): bool
+    public function remove(string $email): bool
     {
         $this->pdo->beginTransaction();
         $sql = "DELETE FROM users WHERE email = ?";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(1, $email, PDO::PARAM_INT);
+        $result = $this->tryAction($stmt);
 
-        try {
-            $result = $stmt->execute();
-            $this->pdo->commit();
-        } catch (\PDOException $e) {
-            echo $e->getMessage();
-            $this->pdo->rollBack();
-        }
-
-        return $result;
+        return $result["result"];
     }
 
     public function find(string $email): User

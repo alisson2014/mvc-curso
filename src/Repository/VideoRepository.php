@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Alura\Mvc\Repository;
 
 use Alura\Mvc\Entity\Video;
+use Alura\Mvc\Helper\TryAction;
 use PDO;
 
-class VideoRepository
+final class VideoRepository
 {
+    use TryAction;
     public function __construct(private PDO $pdo)
     {
     }
@@ -18,23 +20,17 @@ class VideoRepository
         $this->pdo->beginTransaction();
         $sql = "INSERT INTO videos (url, title, image_path) VALUES (?, ?, ?)";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(1, $video->url, PDO::PARAM_STR);
-        $stmt->bindValue(2, $video->title, PDO::PARAM_STR);
+        $stmt->bindValue(1, $video->url);
+        $stmt->bindValue(2, $video->title);
         $stmt->bindValue(3, $video->getFilePath());
+        $result = $this->tryAction($stmt, true);
+        $status = $result["result"];
 
-        try {
-            $result = $stmt->execute();
-
-            $id = $this->pdo->lastInsertId();
-            $video->setId(intval($id));
-
-            $this->pdo->commit();
-        } catch (\PDOException $e) {
-            echo $e->getMessage();
-            $this->pdo->rollBack();
+        if ($status) {
+            $video->setId(intval($result["lastId"]));
         }
 
-        return $result;
+        return $status;
     }
 
     public function remove(int $id): bool
@@ -43,16 +39,9 @@ class VideoRepository
         $sql = "DELETE FROM videos WHERE id = ?";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(1, $id, PDO::PARAM_INT);
+        $result = $this->tryAction($stmt);
 
-        try {
-            $result = $stmt->execute();
-            $this->pdo->commit();
-        } catch (\PDOException $e) {
-            echo $e->getMessage();
-            $this->pdo->rollBack();
-        }
-
-        return $result;
+        return $result["result"];
     }
 
     public function removeImage(int $id): bool
@@ -61,16 +50,9 @@ class VideoRepository
         $sql = "UPDATE videos SET image_path = NULL WHERE id = ? AND image_path IS NOT NULL;";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(1, $id, PDO::PARAM_INT);
+        $result = $this->tryAction($stmt);
 
-        try {
-            $result = $stmt->execute();
-            $this->pdo->commit();
-        } catch (\PDOException $e) {
-            echo $e->getMessage();
-            $this->pdo->rollBack();
-        }
-
-        return $result;
+        return $result["result"];
     }
 
     public function update(Video $video): bool
@@ -84,23 +66,17 @@ class VideoRepository
         $sql = "UPDATE videos SET url = :url, title = :title $updateImageSql WHERE id = :id;";
         $stmt = $this->pdo->prepare($sql);
 
-        $stmt->bindValue(":url", $video->url, PDO::PARAM_STR);
-        $stmt->bindValue(":title", $video->title, PDO::PARAM_STR);
+        $stmt->bindValue(":url", $video->url);
+        $stmt->bindValue(":title", $video->title);
         $stmt->bindValue(":id", $video->id, PDO::PARAM_INT);
 
         if ($video->getFilePath() !== null) {
-            $stmt->bindValue(":image_path", $video->getFilePath(), PDO::PARAM_STR);
+            $stmt->bindValue(":image_path", $video->getFilePath());
         }
 
-        try {
-            $result = $stmt->execute();
-            $this->pdo->commit();
-        } catch (\PDOException $e) {
-            echo $e->getMessage();
-            $this->pdo->rollBack();
-        }
+        $result = $this->tryAction($stmt);
 
-        return $result;
+        return $result["result"];
     }
 
     /**
