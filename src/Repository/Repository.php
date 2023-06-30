@@ -8,11 +8,11 @@ interface Repository
 {
     public function all(): array;
 
-    public function add(object $entity): bool;
+    public function add($entity): bool;
 
     public function remove(int $id): bool;
 
-    public function update(object $entity): bool;
+    public function update($entity): bool;
 
     public function find(int $id): object;
 }

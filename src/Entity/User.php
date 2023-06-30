@@ -12,19 +12,13 @@ readonly class User
     ) {
     }
 
-    private function getEmail(): string
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    private function getPassword(): string
+    public function getPassword(): string
     {
         return $this->password;
-    }
-
-    public function __get(string $method): string
-    {
-        $method .= "get" . ucfirst($method);
-        return $this->$method();
     }
 }

@@ -7,7 +7,7 @@ namespace Alura\Mvc\Repository;
 use Alura\Mvc\Entity\User;
 use PDO;
 
-class UserRepository implements Repository
+class UserRepository
 {
     public function __construct(private PDO $pdo)
     {
@@ -19,8 +19,8 @@ class UserRepository implements Repository
 
         $sql = "INSERT INTO users (email, password) VALUES (?, ?)";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(1, $user->email, PDO::PARAM_STR);
-        $stmt->bindValue(2, $user->password, PDO::PARAM_STR);
+        $stmt->bindValue(1, $user->getEmail(), PDO::PARAM_STR);
+        $stmt->bindValue(2, $user->getPassword(), PDO::PARAM_STR);
 
         try {
             $result = $stmt->execute();
@@ -56,10 +56,10 @@ class UserRepository implements Repository
         return $result;
     }
 
-    public function find(int $email): User
+    public function find(string $email): User
     {
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email = ?;");
-        $stmt->bindValue(1, $email, PDO::PARAM_INT);
+        $stmt->bindValue(1, $email);
         $stmt->execute();
 
         return $this->hydrateUser($stmt->fetch(PDO::FETCH_ASSOC));

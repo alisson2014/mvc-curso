@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Alura\Mvc\Controller;
 
 use Alura\Mvc\Helper\FlashMessageTrait;
+use Alura\Mvc\Repository\UserRepository;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
 use Psr\Http\Server\RequestHandlerInterface;
@@ -13,8 +14,9 @@ class LoginController implements RequestHandlerInterface
 {
     use FlashMessageTrait;
     private \PDO $pdo;
-    public function __construct()
-    {
+    public function __construct(
+        private UserRepository $userRepository
+    ) {
         $dbPath = __DIR__ . "/../../banco.sqlite";
         $this->pdo = new \PDO("sqlite:$dbPath");
     }
@@ -24,13 +26,8 @@ class LoginController implements RequestHandlerInterface
         $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
         $password = filter_input(INPUT_POST, "password");
 
-        $sql = "SELECT * FROM users WHERE email = ?";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(1, $email);
-        $stmt->execute();
-
-        $userData = $stmt->fetch(\PDO::FETCH_ASSOC);
-        $verifyPassword = password_verify($password, $userData["password"] ?? "");
+        $userData = $this->userRepository->find($email);
+        $verifyPassword = password_verify($password, $userData->getPassword() ?? "");
 
         if ($verifyPassword) {
             $_SESSION["isLoggedIn"] = true;

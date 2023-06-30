@@ -7,7 +7,7 @@ namespace Alura\Mvc\Repository;
 use Alura\Mvc\Entity\Video;
 use PDO;
 
-class VideoRepository implements Repository
+class VideoRepository
 {
     public function __construct(private PDO $pdo)
     {
