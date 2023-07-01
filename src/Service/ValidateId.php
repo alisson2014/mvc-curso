@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Alura\Mvc\Helper;
+namespace Alura\Mvc\Service;
 
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;

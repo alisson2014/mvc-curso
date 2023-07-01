@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Alura\Mvc\Controller;
 
-use Alura\Mvc\Helper\FlashMessageTrait;
-use Alura\Mvc\Repository\UserRepository;
+use Alura\Mvc\Service\FlashMessageTrait;
+use Alura\Mvc\Infrastructure\Repository\UserRepository;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
 use Psr\Http\Server\RequestHandlerInterface;

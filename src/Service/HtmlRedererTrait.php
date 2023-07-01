@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Alura\Mvc\Helper;
+namespace Alura\Mvc\Service;
 
 trait HtmlRedererTrait
 {

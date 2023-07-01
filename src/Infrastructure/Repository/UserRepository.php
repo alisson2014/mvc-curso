@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Alura\Mvc\Repository;
+namespace Alura\Mvc\Infrastructure\Repository;
 
-use Alura\Mvc\Entity\User;
-use Alura\Mvc\Helper\TryAction;
+use Alura\Mvc\Domain\Model\User;
+use Alura\Mvc\Domain\Repository\UserRepo;
+use Alura\Mvc\Service\TryAction;
 use PDO;
 
-final class UserRepository
+final class UserRepository implements UserRepo
 {
     use TryAction;
     public function __construct(private PDO $pdo)

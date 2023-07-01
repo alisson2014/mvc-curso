@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Alura\Mvc\Repository;
+namespace Alura\Mvc\Infrastructure\Repository;
 
-use Alura\Mvc\Entity\Video;
-use Alura\Mvc\Helper\TryAction;
+use Alura\Mvc\Domain\Model\Video;
+use Alura\Mvc\Domain\Repository\VideoRepo;
+use Alura\Mvc\Service\TryAction;
 use PDO;
 
-final class VideoRepository
+final class VideoRepository implements VideoRepo
 {
     use TryAction;
     public function __construct(private PDO $pdo)

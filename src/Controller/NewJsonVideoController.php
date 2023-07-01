@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Alura\Mvc\Controller;
 
-use Alura\Mvc\Entity\Video;
-use Alura\Mvc\Repository\VideoRepository;
+use Alura\Mvc\Domain\Model\Video;
+use Alura\Mvc\Infrastructure\Repository\VideoRepository;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
 use Psr\Http\Server\RequestHandlerInterface;

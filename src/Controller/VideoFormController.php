@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Alura\Mvc\Controller;
 
-use Alura\Mvc\Entity\Video;
-use Alura\Mvc\Helper\ValidateId;
-use Alura\Mvc\Repository\VideoRepository;
+use Alura\Mvc\Domain\Model\Video;
+use Alura\Mvc\Service\ValidateId;
+use Alura\Mvc\Infrastructure\Repository\VideoRepository;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Alura\Mvc\Entity;
+namespace Alura\Mvc\Domain\Model;
 
 readonly class User
 {
