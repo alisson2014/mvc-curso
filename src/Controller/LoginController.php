@@ -14,12 +14,10 @@ use Psr\Http\Server\RequestHandlerInterface;
 class LoginController implements RequestHandlerInterface
 {
     use FlashMessageTrait;
-    private \PDO $pdo;
     public function __construct(
-        private UserRepository $userRepository
+        private UserRepository $userRepository,
+        private \PDO $pdo
     ) {
-        $dbPath = __DIR__ . "/../../banco.sqlite";
-        $this->pdo = new \PDO("sqlite:$dbPath");
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
