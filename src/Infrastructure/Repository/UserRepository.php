@@ -50,7 +50,7 @@ final class UserRepository implements UserRepo
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email = ?;");
         $stmt->bindValue(1, $email);
         $stmt->execute();
-        $data = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
+        $data = $stmt->fetch() ?: [];
 
         if (count($data) > 0) {
             return $this->hydrateUser($data);
@@ -63,7 +63,7 @@ final class UserRepository implements UserRepo
     {
         $userList = $this->pdo
             ->query("SELECT * FROM users")
-            ->fetchAll(PDO::FETCH_ASSOC);
+            ->fetchAll();
 
         return array_map(
             $this->hydrateUser(...),

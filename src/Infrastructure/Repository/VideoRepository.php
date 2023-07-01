@@ -87,7 +87,7 @@ final class VideoRepository implements VideoRepo
     {
         $videoList = $this->pdo
             ->query("SELECT * FROM videos;")
-            ->fetchAll(PDO::FETCH_ASSOC);
+            ->fetchAll();
         return array_map(
             $this->hydrateVideo(...),
             $videoList
@@ -100,7 +100,7 @@ final class VideoRepository implements VideoRepo
         $stmt->bindValue(1, $id, PDO::PARAM_INT);
         $stmt->execute();
 
-        return $this->hydrateVideo($stmt->fetch(PDO::FETCH_ASSOC));
+        return $this->hydrateVideo($stmt->fetch());
     }
 
     private function hydrateVideo(array $videoData): Video

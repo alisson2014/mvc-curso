@@ -6,6 +6,11 @@ namespace Alura\Mvc\Service;
 
 trait TryAction
 {
+    /**
+     * @param \PDOStatement|bool $stmt
+     * @param bool $hasId
+     * @return array
+     */
     private function tryAction(
         \PDOStatement|bool $stmt,
         bool $hasId = false,
