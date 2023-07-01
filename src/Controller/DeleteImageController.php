@@ -21,8 +21,8 @@ class DeleteImageController implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $queryParams = $request->getQueryParams();
-        $id = filter_var($queryParams["id"], FILTER_VALIDATE_INT);
-        $this->validateId($id);
+        var_dump($queryParams);
+        $id = $this->validateId($queryParams["id"]);
 
         $success = $this->videoRepository->removeImage($id);
         if (!$success) {

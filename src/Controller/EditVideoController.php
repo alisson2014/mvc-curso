@@ -26,8 +26,7 @@ class EditVideoController implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $queryParams = $request->getQueryParams();
-        $id = filter_var($queryParams["id"], FILTER_VALIDATE_INT);
-        $this->validateId($id);
+        $id = $this->validateId($queryParams["id"]);
 
         $url = filter_input(INPUT_POST, "url", FILTER_VALIDATE_URL);
         $titulo = filter_input(INPUT_POST, "titulo");

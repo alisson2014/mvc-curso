@@ -10,16 +10,18 @@ use Psr\Http\Message\ResponseInterface;
 trait ValidateId
 {
     /**
-     * @param int|false|null $id
-     * @return ResponseInterface
+     * @param ?string $id
+     * @return ResponseInterface|int
      */
-    private function validateId(int|false|null $id): ResponseInterface
+    private function validateId(?string $id): ResponseInterface|int
     {
-        if (!$id) {
+        $filterId = filter_var($id, FILTER_VALIDATE_INT);
+
+        if (!$filterId) {
             $_SESSION["error_message"] = "Id inválido!";
             return new Response(302, ["Location" => "/"]);
         }
 
-        return new Response();
+        return $filterId;
     }
 }

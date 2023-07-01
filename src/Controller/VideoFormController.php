@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Alura\Mvc\Controller;
 
 use Alura\Mvc\Domain\Model\Video;
-use Alura\Mvc\Service\ValidateId;
 use Alura\Mvc\Infrastructure\Repository\VideoRepository;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
@@ -14,7 +13,6 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class VideoFormController implements RequestHandlerInterface
 {
-    use ValidateId;
     public function __construct(
         private VideoRepository $repository,
         private Engine $templates
