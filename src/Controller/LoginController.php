@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Alura\Mvc\Controller;
 
+use Alura\Mvc\Domain\Model\User;
 use Alura\Mvc\Service\FlashMessageTrait;
 use Alura\Mvc\Infrastructure\Repository\UserRepository;
 use Nyholm\Psr7\Response;
@@ -27,7 +28,9 @@ class LoginController implements RequestHandlerInterface
         $password = filter_input(INPUT_POST, "password");
 
         $userData = $this->userRepository->find($email);
-        $verifyPassword = password_verify($password, $userData->getPassword() ?? "");
+        $verifyPassword = $userData instanceof User
+            ? password_verify($password, $userData->getPassword() ?? "")
+            : false;
 
         if ($verifyPassword) {
             $_SESSION["isLoggedIn"] = true;

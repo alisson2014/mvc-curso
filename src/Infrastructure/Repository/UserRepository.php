@@ -45,13 +45,18 @@ final class UserRepository implements UserRepo
         return $result["result"];
     }
 
-    public function find(string $email): User
+    public function find(string $email): User|false
     {
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email = ?;");
         $stmt->bindValue(1, $email);
         $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
 
-        return $this->hydrateUser($stmt->fetch(PDO::FETCH_ASSOC));
+        if (count($data) > 0) {
+            return $this->hydrateUser($data);
+        }
+
+        return false;
     }
 
     public function all(): array

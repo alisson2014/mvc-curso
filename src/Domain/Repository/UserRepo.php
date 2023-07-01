@@ -11,5 +11,5 @@ interface UserRepo extends Repository
     public function add(User $user): bool;
     public function update(User $user): bool;
     public function remove(string $email): bool;
-    public function find(string $email): User;
+    public function find(string $email): User|false;
 }
